@@ -1,4 +1,4 @@
-package pv.security.jwt.controller;
+package pv.security.jwt.user;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -13,5 +13,5 @@ public class AuthenticationRequest {
 
 	private String email;
 	
-	String password;
+	private String password;
 }
