@@ -1,6 +1,8 @@
 package pv.security.jwt.user;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -31,6 +33,7 @@ public class UserInfo
 	
 	private String email;
 	
+	@JsonIgnore
 	private String password;
 	
 	@Enumerated(EnumType.STRING)
