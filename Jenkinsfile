@@ -41,13 +41,20 @@ pipeline {
                bat "mvn clean install"
             }
         }
-         stage('Build & Push Docker Image') {
+         stage('Build Docker Image') {
             steps {
                script{
                    withDockerRegistry(credentialsId: 'b81d22f6-5c28-43a0-85d2-1d5af25db411', toolName: 'docker') {
-                        bat "docker build -f security:latest ."
-                        bat "docker tag security:latest prachi098/security:latest"
-                        bat "docker push prachi098/security:latest"
+                        bat "docker build -t security-jwt ."
+                  }
+               }
+            }
+        }
+        stage('Push Docker Image To Hub') {
+            steps {
+               script{
+                   withDockerRegistry(credentialsId: 'b81d22f6-5c28-43a0-85d2-1d5af25db411', toolName: 'docker') {
+                        bat "docker push security-jwt"
                   }
                }
             }
