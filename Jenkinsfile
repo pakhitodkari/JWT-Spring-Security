@@ -29,5 +29,27 @@ pipeline {
                 -Dsonar.projectKey=jwt-security '''
             }
         }
+        //Another Security Check using owasp
+        stage('OWASP SCAN') {
+            steps {
+               dependencyCheck additionalArguments: ' --scan ./', odcInstallation: 'DP'
+               dependencyCheckPublisher pattern: '***/dependency-check-report.xml'
+            }
+        }
+         stage('Build Application') {
+            steps {
+               bat "mvn clean install"
+            }
+        }
+         stage('Build & Push Docker Image') {
+            steps {
+               script{
+                   withDockerRegistry(credentialsId: 'b81d22f6-5c28-43a0-85d2-1d5af25db411', toolName: 'docker') {
+                        bat "docker build -t security:latest -f Dockerfile ."
+                        bat "docker tag security:latest prachi098/security:latest"
+                        bat "docker push prachi098/security:latest"
+                  }
+               }
+            }
     }
 }
