@@ -45,7 +45,7 @@ pipeline {
             steps {
                script{
                    withDockerRegistry(credentialsId: 'b81d22f6-5c28-43a0-85d2-1d5af25db411', toolName: 'docker') {
-                        bat "docker build -t security:latest -f docker/Dockerfile ."
+                        bat "docker build -f security:latest ."
                         bat "docker tag security:latest prachi098/security:latest"
                         bat "docker push prachi098/security:latest"
                   }
