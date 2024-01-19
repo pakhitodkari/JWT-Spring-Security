@@ -43,19 +43,18 @@ pipeline {
         }
          stage('Build Docker Image') {
             steps {
-               script{
-                   withDockerRegistry(credentialsId: 'b81d22f6-5c28-43a0-85d2-1d5af25db411', toolName: 'docker') {
-                        bat "docker build -t security-jwt ."
-                  }
-               }
+                script{
+                   bat "docker build -t prachi098/security-jwt ."
+                }
             }
         }
-        stage('Push Docker Image To Hub') {
+        stage('Push Docker Image To Hub by Login') {
             steps {
                script{
-                   withDockerRegistry(credentialsId: 'b81d22f6-5c28-43a0-85d2-1d5af25db411', toolName: 'docker') {
-                        bat "docker push security-jwt"
-                  }
+                   withCredentials([string(credentialsId: 'docker-cred', variable: 'dockercred')]) {
+                        bat "docker login -u prachi098 -p ${dockercred}"
+                        bat "docker push prachi098/security-jwt" 
+                    }
                }
             }
         }
